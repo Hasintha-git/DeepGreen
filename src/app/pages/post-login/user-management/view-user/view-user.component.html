@@ -1,0 +1,42 @@
+<div class="input-dialog-container">
+  <div class="dialog-title">View User</div>
+
+  <div class="btn-close" (click)="closeDialog()">
+  </div>
+  <div class="title-content-devider"></div>
+
+  <div class="dialog-input-fields">
+
+    <div class="view-data">
+      <label for="first_name" class="label">Fisrt Name</label>
+      <p title="{{userModel.first_name}}" id="first_name" class="data">{{userModel.first_name}}</p>
+    </div>
+    <div class="view-data">
+      <label for="last_name" class="label">Last Name</label>
+      <p title="{{userModel.last_name}}" id="first_name" class="data">{{userModel.last_name}}</p>
+    </div>
+    <div class="view-data">
+      <label for="Email" class="label">Email</label>
+      <p title="{{userModel.email }}" class="data">{{userModel.email}}</p>
+    </div>
+    <div class="view-data">
+      <label for="createdUser" class="label">Created User</label>
+      <p title="{{userModel.createdUser}}" class="data">{{userModel.createdUser}}</p>
+    </div>
+
+    <div class="view-data">
+      <label for="lastUpdatedUser" class="label">Last Updated User</label>
+      <p title="{{userModel.lastUpdatedUser}}" class="data">{{userModel.lastUpdatedUser}}</p>
+    </div>
+
+    <div class="view-data">
+      <label for="createdTime" class="label">Created Date & Time</label>
+      <p title="{{userModel.createdTime}}" class="data">{{userModel.createdTime}}</p>
+    </div>
+
+    <div class="view-data">
+      <label for="lastUpdatedTime" class="label">Last Updated Date & Time</label>
+      <p title="{{userModel.lastUpdatedTime}}" class="data">{{userModel.lastUpdatedTime}}</p>
+    </div>
+  </div>
+</div>

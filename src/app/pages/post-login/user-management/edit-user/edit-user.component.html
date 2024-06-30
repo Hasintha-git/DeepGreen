@@ -1,0 +1,50 @@
+<div class="input-dialog-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="userAdd">
+        <div class="dialog-title">Edit User</div>
+        <div class="btn-close" (click)="closeDialog()">
+        </div>
+        <div class="title-content-devider"></div>
+        <div class="dialog-input-fields">
+            
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>First Name</mat-label>
+                    <input matInput name="first_name" [formControl]="first_name" [maxlength]="30" appRegexFormate
+                        regexType="letter_num_space" autoComplete='off' [(ngModel)]="userModelAdd.first_name" required>
+                    <mat-error *ngIf="first_name.hasError('required')">First name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput name="last_name" [formControl]="last_name" [maxlength]="30" appRegexFormate
+                        regexType="letter_num_space" autoComplete='off' [(ngModel)]="userModelAdd.last_name" required>
+                    <mat-error *ngIf="last_name.hasError('required')">Last name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput name="email" [formControl]="email" required [maxlength]="255" autoComplete='off'
+                        [(ngModel)]="userModelAdd.email">
+                    <mat-error *ngIf="email.hasError('required')">Email cannot be empty
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('email')">Invalid Email
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            
+
+        </div>
+        <div class="dialog-buttons">
+            <button type="submit" mat-button class="custom-button primary">Add
+            </button>
+            <button type="reset" mat-button class="custom-button secondary" (click)="resetUserAdd()">Reset</button>
+        </div>
+    </form>
+</div>

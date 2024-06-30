@@ -1,0 +1,55 @@
+<div class="login-main">
+    <form class="login-side1"  (ngSubmit)="onSubmit()" [formGroup]="userForm">
+        <div class="login-side1-div">
+          <img class="login-side2-image" src="assets/images/logo.png" alt="">
+
+          <div class="login-side1-row-title">
+                <h2 class="welcome">Signup</h2>
+            </div>
+            <div style="display: flex;flex-direction: column;">
+                <label class="input_label">First Name</label>
+                <mat-form-field class="ultra-max-field" appearance="outline">
+                    <input matInput placeholder="First Name" [maxlength]="30" appRegexFormate
+                    regexType="letter_num_space"  formControlName="first_name" 
+                    autocomplete="off"   [(ngModel)]="signUpModel.first_name">
+                    <mat-error *ngIf="first_name?.hasError('required')">First Name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div style="display: flex;flex-direction: column;">
+                <label class="input_label">Last Name</label>
+                <mat-form-field class="ultra-max-field" appearance="outline">
+                    <input matInput placeholder="Last Name" [maxlength]="30" appRegexFormate
+                    regexType="letter_num_space"   formControlName="last_name" 
+                    autocomplete="off"   [(ngModel)]="signUpModel.last_name">
+                    <mat-error *ngIf="last_name?.hasError('required')">Last Name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div style="display: flex;flex-direction: column;">
+                <label class="input_label">Email</label>
+                <mat-form-field class="ultra-max-field" appearance="outline" >
+                    <input matInput placeholder="email" formControlName="email" autocomplete="off"   [(ngModel)]="signUpModel.email">
+                    <mat-error *ngIf="email?.hasError('required')">email cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div style="display: flex;flex-direction: column;">
+                <label class="input_label">Password</label>
+                <mat-form-field class="ultra-max-field" appearance="outline">
+                    <input matInput  placeholder="password" [type]="hide ? 'password' : 'text'" autocomplete="off"  formControlName="password"  [(ngModel)]="signUpModel.password">
+                    <button mat-icon-button type="button" matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide" type="button">
+                        <mat-icon class="icon_color">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="password?.hasError('required')">Password cannot be empty
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+            <div class="login-side1-row">
+                <button class="btn-login" type="submit"  mat-flat-button>Register</button>
+            </div>
+        </div>
+    </form>
+</div>

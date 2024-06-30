@@ -1,0 +1,27 @@
+@import "src/assets/scss/variables";
+
+.mat-table-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: $primaryTextColor; /* Change as needed */
+  }
+
+  /* styles.css or your custom CSS file */
+.mat-header-cell {
+  background-color: $primaryColor !important; 
+  color: $primaryTextColor !important; 
+}
+
+.mat-cell {
+  padding: 8px !important; /* Cell padding */
+}
+
+.main-form {
+  background-color: $secondaryColor;
+  box-shadow: 0px 0px 2px $primaryTextColor;
+  border-radius: 5px;
+  padding: 7px;
+  margin: 10px;
+  padding-top: 15px;
+}

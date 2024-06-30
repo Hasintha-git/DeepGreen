@@ -1,0 +1,70 @@
+<div class="input-dialog-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="userAdd">
+        <div class="dialog-title">Add User</div>
+        <div class="btn-close" (click)="closeDialog()">
+        </div>
+        <div class="title-content-devider"></div>
+        <div class="dialog-input-fields">
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Fisrt Name</mat-label>
+                    <input matInput name="first_name" [formControl]="first_name" [maxlength]="30" appRegexFormate
+                        regexType="letter_num_space" autoComplete='off' [(ngModel)]="userModelAdd.first_name" required>
+                    <mat-error *ngIf="first_name.hasError('required')">Fisrt name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput name="last_name" [formControl]="last_name" [maxlength]="30" appRegexFormate
+                        regexType="letter_num_space" autoComplete='off' [(ngModel)]="userModelAdd.last_name" required>
+                    <mat-error *ngIf="last_name.hasError('required')">Last name cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput name="email" [formControl]="email" required [maxlength]="30" autoComplete='off'
+                        [(ngModel)]="userModelAdd.email">
+                    <mat-error *ngIf="email.hasError('required')">Email cannot be empty
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('email')">Invalid Email
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput name="password" [formControl]="password" type="password" autoComplete='off'
+                        [(ngModel)]="userModelAdd.password" required>
+                    <mat-error *ngIf="password.hasError('required')">Password cannot be empty
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-fields" >
+                <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput name="confirmPassword" [formControl]="confirmPassword" type="password"
+                        autoComplete='off' [(ngModel)]="userModelAdd.confirmPassword" required>
+                    <mat-error *ngIf="confirmPassword.hasError('required')">Confirm password
+                        cannot be empty
+                    </mat-error>
+                    <mat-error *ngIf="confirmPassword.hasError('NoPassswordMatch')">Password
+                        mismatched
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="dialog-buttons">
+            <button type="submit" mat-button class="custom-button primary">Add
+            </button>
+            <button type="reset" mat-button class="custom-button secondary" (click)="resetUserAdd()">Reset</button>
+        </div>
+    </form>
+</div>

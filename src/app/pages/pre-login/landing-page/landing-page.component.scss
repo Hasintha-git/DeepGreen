@@ -1,0 +1,55 @@
+@import "src/assets/scss/variables";
+
+// Styles for landing page
+.landing-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: $secondaryColor url('../../../../assets/images/background.jpg') no-repeat center center;
+  background-size: cover;
+  color: $primaryTextColor;
+  text-align: center;
+  padding: 20px;
+
+  .content {
+    max-width: 600px;
+    padding: 40px;
+    background: rgba($secondaryColor-800, 0.9);
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: $xlText;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: $mText;
+      margin-bottom: 32px;
+    }
+
+    .login-button {
+      background-color: $btnNormalColor;
+      color: $primaryTextColor;
+      padding: 12px 24px;
+      font-size: $rText;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: $btnHoverColor;
+      }
+
+      &:active {
+        background-color: $btnPressedColor;
+      }
+    }
+  }
+}

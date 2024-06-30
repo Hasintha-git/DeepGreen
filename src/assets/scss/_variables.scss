@@ -1,0 +1,52 @@
+//colors
+$primaryColor: #4E9F3D;
+$secondaryColor: #FFFFFF;
+$secondaryColor-800: #2c2c2c;
+$colorTableActionButton: #666666;
+
+//text colors
+$primaryTextColor: #191A19;
+$secondaryTextColor: #FFFFFF;
+$formTextColor: #ffffff;
+
+// messages
+$success: #24BD4F;
+$warning: #F8901F;
+$error: #EF4545;
+
+//button
+$btnNormalColor: #4E9F3D;
+$btnHoverColor: #252525;
+$btnPressedColor: #191A19;
+
+// Font sizes
+$xlText: 18px;
+$lText: 16px;
+$mText: 15px;
+$rText: 14px;
+$sText: 12px;
+$xsText: 10px;
+
+//gradients
+$gradientPrimary: linear-gradient(180deg, #25637B 0%, #0D3849 100%);
+$gradientGrey: linear-gradient(180deg, #CCCCCC 0%, #999999 100%);
+$gradientColorNavActivePage: linear-gradient(90deg, #FF9431 23.33%, #FF9F46 100%);
+
+
+
+$gradientNavHover: linear-gradient(
+    90deg, rgba($primaryTextColor, 1) 0%, 
+    rgba($primaryTextColor, 1) 12.5%, 
+    rgba($primaryTextColor, 1) 87.5%, 
+    rgba($primaryTextColor, 1) 100%
+    );
+    
+// $primaryColor: linear-gradient(
+//     90deg, $primaryTextColor-Opacity-10 0%, 
+//     $primaryTextColor-Opacity-30 12.5%, 
+//     $primaryTextColor-Opacity-30 87.5%, 
+//     $primaryTextColor-Opacity-10 100%
+//     );
+
+
+
