@@ -1,5 +1,4 @@
 @import "src/assets/scss/variables";
-
 @font-face {
     font-family: 'SourceSansPro';
     src: url('../../../assets/fonts/SourceSansPro.ttf');
@@ -70,7 +69,6 @@
 
 #sidenav .menu-item mat-icon:hover {
     color: $secondaryColor-800;
-
 }
 
 @media screen and (min-width: 600px) {
@@ -78,39 +76,32 @@
         width: 0px !important;
         border: none;
     }
-
     #sidenav.menu-open {
         width: 240px !important;
         border: none;
     }
-
 }
 
 @media screen and (max-width: 600px) {
     .post-login-sidenav {
         width: 0px !important;
     }
-
     #sidenav.menu-open {
         width: 70px !important;
         border: none;
     }
-
     .post-login-logo {
         display: none;
     }
-
     .txt_route {
         display: none;
     }
-
     .sub-body-area {
         height: auto !important;
     }
 }
 
 // *** end ***
-
 .post-login-main-side {
     display: flex;
     height: 100vh;
@@ -139,7 +130,6 @@
 .header-icon {
     border: none;
     background-color: transparent;
-
     &:hover {
         cursor: pointer;
     }
@@ -150,17 +140,13 @@
     color: $primaryTextColor;
     font-weight: 500;
     font-family: 'SourceSansPro';
-
     &:hover {
         background-color: transparent;
         color: $secondaryColor;
-
     }
 }
 
 // *** end ***
-
-
 // body style >>>>>>>>>>
 .body-area {
     width: 100%;
@@ -234,7 +220,6 @@
     }
 }
 
-
 .activated-route {
     // border-right: 5px solid #24A0ED !important;
     background-color: $success !important;
@@ -244,7 +229,6 @@
     color: $primaryTextColor !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px !important;
     font-weight: bold;
-
 }
 
 .left_menu_section {
@@ -257,5 +241,45 @@
     margin-bottom: 10px;
     .section_text {
         color: $primaryTextColor;
+    }
+}
+
+.custom-button-dashboard {
+    min-width: 90px;
+    height: 35px;
+    padding: 0 12px;
+    font-size: $rText;
+    font-family: mFont;
+    // border-radius: 20px !important;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    &.image-button-dashboard {
+        background: $primaryColor;
+        color: $secondaryTextColor;
+        float: right;
+        margin-left: 16px;
+        line-height: 19px;
+        .button-content {
+            display: flex;
+            align-items: center;
+        }
+        img {
+            vertical-align: bottom;
+            padding-right: 5px;
+            width: 24px !important;
+            height: auto !important;
+        }
+        .txt_route {
+            display: inline-block;
+            margin-left: 20px !important;
+        }
+        &.cdk-focused.cdk-program-focused {
+            background: none !important;
+            box-shadow: none !important;
+            .mat-button-ripple {
+                display: none;
+            }
+        }
     }
 }

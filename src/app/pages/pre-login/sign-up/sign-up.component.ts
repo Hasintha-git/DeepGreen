@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserResponse } from 'src/app/models/response/user-response';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user/user.service';
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
   signUpModel = new User();
@@ -21,45 +27,46 @@ export class SignUpComponent implements OnInit {
   constructor(
     private toastr: ToastServiceService,
     private spinner: NgxSpinnerService,
-    private routerLink: Router, 
+    private routerLink: Router,
     private formBuilder: FormBuilder,
-    private userService: UserService
-    ) { }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.initialValidator()
+    this.initialValidator();
   }
   initialValidator() {
-  this.userForm = this.formBuilder.group({
-    first_name : this.formBuilder.control('', [Validators.required]),
-    last_name : this.formBuilder.control('', [Validators.required]),
-    email : this.formBuilder.control('', [Validators.required]),
-    password : this.formBuilder.control('', [Validators.required])
-  });
+    this.userForm = this.formBuilder.group({
+      first_name: this.formBuilder.control('', [Validators.required]),
+      last_name: this.formBuilder.control('', [Validators.required]),
+      email: this.formBuilder.control('', [Validators.required]),
+      password: this.formBuilder.control('', [Validators.required]),
+    });
   }
 
   onSubmit() {
     this.spinner.show();
     if (this.userForm.valid) {
-      this.userService.userRegister(this.signUpModel).subscribe((userResponse: any)=> {
-        this.toastr.successMessage(userResponse.msg);
-        // this.routerLink.navigateByUrl('/login')
-        this.userForm.reset();
-        Object.keys(this.userForm.controls).forEach(key => {
-          const control = this.userForm.controls[key];
-          control.clearValidators();
-          control.updateValueAndValidity();
-        });
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-        this.toastr.errorMessage(error);
-      })
+      this.authService.register(this.signUpModel).subscribe(
+        (userResponse: any) => {
+          this.toastr.successMessage(userResponse.msg);
+          // this.routerLink.navigateByUrl('/login')
+          this.userForm.reset();
+          Object.keys(this.userForm.controls).forEach((key) => {
+            const control = this.userForm.controls[key];
+            control.clearValidators();
+            control.updateValueAndValidity();
+          });
+          this.spinner.hide();
+        },
+        (error) => {
+          this.spinner.hide();
+          this.toastr.errorMessage(error);
+        }
+      );
     } else {
       this.spinner.hide();
-      this.toastr.errorMessage('Please fill in all required fields');
-      this.mandatoryValidation(this.userForm)
+      this.mandatoryValidation(this.userForm);
     }
   }
 
@@ -67,11 +74,10 @@ export class SignUpComponent implements OnInit {
     // this.isEmptyThumbnail = false;
     for (const key in formGroup.controls) {
       if (formGroup.controls.hasOwnProperty(key)) {
-        const control: FormControl = <FormControl> formGroup.controls[key];
+        const control: FormControl = <FormControl>formGroup.controls[key];
         if (Object.keys(control).includes('controls')) {
-          const formGroupChild: FormGroup = <FormGroup> formGroup.controls[key];
+          const formGroupChild: FormGroup = <FormGroup>formGroup.controls[key];
           this.mandatoryValidation(formGroupChild);
-
         }
         control.markAsTouched();
       }
@@ -92,5 +98,5 @@ export class SignUpComponent implements OnInit {
 
   get password() {
     return this.userForm.get('password');
-  } 
+  }
 }

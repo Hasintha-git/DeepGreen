@@ -19,41 +19,35 @@
     flex-direction: column;
     padding: 20px;
     overflow: hidden;
-
     .login-side1-div {
         width: 400px;
         height: 480px;
         border-radius: 20px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-        border: 1px solid  $primaryColor;
+        box-shadow: rgba(0, 0, 0, 0.20) 0px 5px 15px;
+        border: 1px solid $primaryColor;
     }
-
     .login-side1-row {
-           display: inline-block;
-           width: 100%;
-           max-width: 100%;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           flex-direction: column;
-
-           .login-side1-row-logo {
-             width: 120px;
-           }
-
+        display: inline-block;
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .login-side1-row-logo {
+            width: 120px;
+        }
         .welcome {
             font-family: "Poppins", sans-serif;
             font-size: 18px;
             font-weight: bold;
             color: $primaryColor;
         }
-
         .welcome_des {
             color: $primaryColor;
             font-size: 14px;
             font-weight: 500;
         }
-
         .des {
             color: $secondaryTextColor;
             font-size: 16px;
@@ -62,24 +56,20 @@
             }
             .txt_register {
                 color: $secondaryTextColor;
-
                 & :hover {
                     cursor: pointer;
                 }
             }
         }
-
         .input-field {
             outline: 1px solid $primaryColor;
         }
-
         .btn-login {
             width: 200px;
             background-color: $btnNormalColor;
-            color:$primaryTextColor
+            color: $primaryTextColor
         }
     }
-
     .social-column {
         width: 100%;
         max-width: 100%;
@@ -88,12 +78,9 @@
         align-items: center;
         flex-direction: row;
     }
-
     .ultra-max-field {
         width: 350px;
-
     }
-
     .login-side1-row-forget {
         display: inline-block;
         width: 350px;
@@ -104,14 +91,12 @@
         // background-color: rebeccapurple;
         padding-right: 25px;
         flex-direction: row;
-
         .txt_forget {
             color: $secondaryTextColor;
             font-family: 'Courier New', Courier, monospace;
             font-size: 14px;
         }
     }
-
     .new-line {
         padding-bottom: 20px;
         display: flex;
@@ -120,6 +105,7 @@
         flex-direction: row;
     }
 }
+
 .login-side2-image {
     width: 70px;
     height: auto;
@@ -128,13 +114,12 @@
 .icon_color {
     color: $primaryColor;
 }
-// >>>>> Mobile responsive
 
+// >>>>> Mobile responsive
 @media screen and (max-width: 1000px) {
     .login-side1 {
         width: 50% !important;
     }
-
     .login-side2 {
         width: 50% !important;
     }
@@ -144,7 +129,6 @@
     .login-side1 {
         width: 100% !important;
     }
-
     .login-side2 {
         display: none !important;
     }

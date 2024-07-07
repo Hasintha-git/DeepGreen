@@ -3,7 +3,6 @@ import { HttpClient,HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/
 import { catchError } from 'rxjs/operators';
 import {Observable,throwError} from 'rxjs';
 import { getEndpoint, SECURE } from 'src/app/utility/constants/end-point';
-import {timeout} from 'rxjs/operators';
 import { DataTable } from 'src/app/pages/models/data-table';
 import { CommonFunctionService } from '../common-functions/common-function.service';
 @Injectable({
