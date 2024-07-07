@@ -1,208 +1,147 @@
-import { AfterViewInit, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { MatSort } from '@angular/material/sort';
-import { SimpleBase } from 'src/app/models/SimpleBase';
-import { User } from 'src/app/models/user';
+import { Component, Inject, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { UserService } from 'src/app/services/user/user.service';
+import { SimpleBase } from 'src/app/models/SimpleBase';
+import { StorageService } from 'src/app/models/StorageService';
+import { CommonResponse } from 'src/app/models/response/CommonResponse';
+import { User } from 'src/app/models/user';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonFunctionService } from 'src/app/services/common-functions/common-function.service';
-import { LAST_UPDATED_TIME, PAGE_LENGTH, SORT_DIRECTION } from 'src/app/utility/constants/system-config';
-import { merge, tap } from 'rxjs';
-import { DeleteUserComponent } from './delete-user/delete-user.component';
-import { ViewUserComponent } from './view-user/view-user.component';
-import { EditUserComponent } from './edit-user/edit-user.component';
-import { AddUserComponent } from './add-user/add-user.component';
-import { Commondatasource } from '../../datasource/Commondatasource';
-import { DataTable } from '../../models/data-table';
-import { LockUserComponent } from './lock-user/lock-user.component';
-import { UnlockUserComponent } from './unlock-user/unlock-user.component';
-import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { UserService } from 'src/app/services/user/user.service';
+
 
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.scss']
 })
-export class UserManagementComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
-
-  public userSearch: FormGroup;
-  public dataSourceUser: Commondatasource;
-  public userList: User[];
-  public searchModel: User;
+export class UserManagementComponent implements OnInit {
+  
+  userAdd: FormGroup;
+  userModelAdd = new User();
   public statusList: SimpleBase[];
   public userRoleList: SimpleBase[];
-  public searchReferenceData: Map<string, Object[]>;
-  public isSearch: boolean;
-  public access: any;
-
-  displayedColumns: string[] = ['view', 'first_name', 'last_name', 'email', 'action'];
+  maxDate = new Date();
+  oldModel: string;
+  id:any;
 
   constructor(
-    public dialog: MatDialog,
-    public toast: ToastServiceService,
-    public router: Router,
-    private spinner: NgxSpinnerService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute,
-    private commonFunctionService: CommonFunctionService
-  ) {}
+    public toastService: ToastServiceService,
+    private spinner: NgxSpinnerService,
+    private sessionStorage: StorageService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit() {
     this.spinner.show();
-    this.searchModel = new User();
-    this.prepareReferenceData();
-    this.initialForm();
-    this.initialDataLoader();
+    this._prepare();
   }
 
-  initialForm() {
-    this.userSearch = this.formBuilder.group({
-      email: new FormControl(''),
-    });
+  _prepare() {
+    this.initialValidator();
+
+    this.findById();
   }
 
-  prepareReferenceData(): void {
-    this.userService.getSearchData(true)
-      .subscribe((response: any) => {
-        this.statusList = response.statusList;
-        this.userRoleList = response.userRoleList;
-      },
-      error => {
-        this.toast.errorMessage(error.error['message']);
+
+  findById() {
+    this.userModelAdd.id = this.id;
+    this.userService.get(this.userModelAdd).subscribe(
+      (user: any) => {
+        this.userModelAdd = user.data;
+        
+        const currentUser = this.sessionStorage.getItem("user");
+        this.userModelAdd.activeUserName = currentUser.user.username;
+        this.oldModel = JSON.stringify(this.userModelAdd);
+        this.spinner.hide();
+      }, error => {
+        this.spinner.hide();
+          this.toastService.errorMessage(error.error['errorDescription']);
       }
+      
     );
   }
 
-  ngAfterViewInit() {
-    this.dataSourceUser.counter$
-      .pipe(
-        tap((count) => {
-          this.paginator.length = count;
-        })
-      )
-      .subscribe();
-    merge(this.paginator.page, this.sort.sortChange)
-      .pipe(
-        tap(() => this.getList())
-      )
-      .subscribe();
+
+  initialValidator() {
+    this.userAdd = this.formBuilder.group({
+      first_name: this.formBuilder.control('', [
+        Validators.required
+      ]),
+      last_name: this.formBuilder.control('', [
+        Validators.required
+      ]),
+      email: this.formBuilder.control('', [
+        Validators.required, Validators.email
+      ])
+    });
   }
 
-  initialDataLoader(): void {
-    this.initialDataTable();
-    this.dataSourceUser = new Commondatasource();
-    this.dataSourceUser.counter$
-      .pipe(
-        tap((count) => {
-          this.paginator.length = count;
-        })
-      )
-      .subscribe();
-    this.getList();
-  }
-
-  getList() {
-    let searchParamMap = this.commonFunctionService.getDataTableParam(this.paginator, this.sort);
-    if (this.isSearch) {
-      searchParamMap = this.getSearchString(searchParamMap, this.searchModel);
-    }
-    this.userService.getList(searchParamMap)
-      .subscribe((data: DataTable<User>) => {
-        this.userList = data.records;
-        console.log("---->",this.userList)
-        this.dataSourceUser.datalist = this.userList;
-        console.log(this.dataSourceUser)
-        this.dataSourceUser.usersSubject.next(this.userList);
-        this.dataSourceUser.countSubject.next(data.totalRecords);
-        this.spinner.hide();
-      },
-      error => {
-        this.spinner.hide();
-        this.toast.errorMessage(error.error['errorDescription']);
+  mandatoryValidation(formGroup: FormGroup) {
+    for (const key in formGroup.controls) {
+      if (formGroup.controls.hasOwnProperty(key)) {
+        const control: FormControl = <FormControl>formGroup.controls[key];
+        if (Object.keys(control).includes('controls')) {
+          const formGroupChild: FormGroup = <FormGroup>formGroup.controls[key];
+          this.mandatoryValidation(formGroupChild);
+        }
+        control.markAsTouched();
       }
-    );
-  }
-
-  getSearchString(searchParamMap: Map<string, any>, searchModel: User): Map<string, string> {
-    if (searchModel.email) {
-      searchParamMap.set(this.displayedColumns[5].toString(), searchModel.email);
     }
-    return searchParamMap;
   }
 
-  initialDataTable() {
-    this.paginator.pageIndex = 0;
-    this.paginator.pageSize = PAGE_LENGTH;
+  resetUserAdd() {
+    this.userAdd.reset();
+    this.findById();
   }
 
-  searchUser(search: boolean) {
-    this.isSearch = search;
-    this.initialDataLoader();
+  onSubmit() {
+    this.spinner.show();
+    if (JSON.stringify(this.userModelAdd) === this.oldModel) {
+      this.spinner.hide();
+      this.toastService.errorMessage('No change(s) detected.');
+    }else
+    if (this.userAdd.valid) {
+      this.userService.update(this.userModelAdd).subscribe(
+        (response: CommonResponse) => {
+          this.toastService.successMessage(response.responseDescription);
+          this.spinner.hide();
+        },
+        error => {
+          this.spinner.hide();
+            this.toastService.errorMessage(error.error['errorDescription']);
+        }
+      );
+    } else {
+      this.spinner.hide();
+      this.mandatoryValidation(this.userAdd)
+    }
   }
 
-  resetUserSearch() {
-    this.userSearch.reset();
-    this.initialDataLoader();
-  }
-
-  add() {
-    const dialogRef = this.dialog.open(AddUserComponent);
-    dialogRef.componentInstance.statusList = this.statusList;
-    dialogRef.componentInstance.userRoleList = this.userRoleList;
-    dialogRef.afterClosed().subscribe(result => {
-      this.resetUserSearch();
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
     });
   }
 
-  edit(id: any) {
-    const dialogRef = this.dialog.open(EditUserComponent, { data: id });
-    dialogRef.componentInstance.statusList = this.statusList;
-    dialogRef.componentInstance.userRoleList = this.userRoleList;
-    dialogRef.afterClosed().subscribe(result => {
-      this.resetUserSearch();
-    });
+  get first_name() {
+    return this.userAdd.get('first_name');
   }
-
-  delete(id: any) {
-    const dialogRef = this.dialog.open(DeleteUserComponent, { data: id, width: '350px', height: '180px' });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.resetUserSearch();
-    });
+  get last_name() {
+    return this.userAdd.get('last_name');
   }
-
-  view(id: any) {
-    const dialogRef = this.dialog.open(ViewUserComponent, { data: id });
-    dialogRef.afterClosed().subscribe(result => {
-    });
-  }
-
-  forgetPassword(id: any) {
-    const dialogRef = this.dialog.open(ForgetPasswordComponent, { data: id, width: '600px', height: '230px' });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.resetUserSearch();
-    });
-  }
-
-
-  ngOnDestroy() {
-    this.dialog.closeAll();
-  }
-
-  // Getters for form controls
-  
   get email() {
-    return this.userSearch.get('email');
+    return this.userAdd.get('email');
   }
+
 
 }

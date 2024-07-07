@@ -8,6 +8,18 @@
             
             <div class="input-fields">
                 <mat-form-field class="min-field" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput name="email" [formControl]="email" disabled required [maxlength]="255" autoComplete='off'
+                        [(ngModel)]="userModelAdd.email">
+                    <mat-error *ngIf="email.hasError('required')">Email cannot be empty
+                    </mat-error>
+                    <mat-error *ngIf="email.hasError('email')">Invalid Email
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <div class="input-fields">
+                <mat-form-field class="min-field" appearance="outline">
                     <mat-label>First Name</mat-label>
                     <input matInput name="first_name" [formControl]="first_name" [maxlength]="30" appRegexFormate
                         regexType="letter_num_space" autoComplete='off' [(ngModel)]="userModelAdd.first_name" required>
@@ -25,20 +37,7 @@
                     </mat-error>
                 </mat-form-field>
             </div>
-
-            <div class="input-fields">
-                <mat-form-field class="min-field" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput name="email" [formControl]="email" required [maxlength]="255" autoComplete='off'
-                        [(ngModel)]="userModelAdd.email">
-                    <mat-error *ngIf="email.hasError('required')">Email cannot be empty
-                    </mat-error>
-                    <mat-error *ngIf="email.hasError('email')">Invalid Email
-                    </mat-error>
-                </mat-form-field>
-            </div>
-
-            
+         
 
         </div>
         <div class="dialog-buttons">
