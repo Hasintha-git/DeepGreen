@@ -222,13 +222,13 @@
 
 .activated-route {
     // border-right: 5px solid #24A0ED !important;
-    background-color: $success !important;
+    background-color: $secondaryColor-800 !important;
     max-width: 100% !important;
     // border-top-right-radius: 50px !important;
     // border-bottom-right-radius: 50px !important;
-    color: $primaryTextColor !important;
+    color: $secondaryTextColor !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px !important;
-    font-weight: bold;
+    // font-weight: bold;
 }
 
 .left_menu_section {
@@ -239,10 +239,15 @@
     box-shadow: rgba(0, 0, 0, 0.10) 0px 5px 5px;
     border-radius: 0;
     margin-bottom: 10px;
+    display: flex; // Ensure the button content is aligned properly
+    align-items: center !important;
+    text-align: start !important;
+
     .section_text {
         color: $primaryTextColor;
     }
 }
+
 
 .custom-button-dashboard {
     min-width: 90px;
@@ -271,8 +276,11 @@
             height: auto !important;
         }
         .txt_route {
-            display: inline-block;
+            // display: inline-block;
             margin-left: 20px !important;
+            word-wrap: break-word; // Ensure long words are wrapped
+            white-space: normal; // Allow text to wrap
+            overflow-wrap: break-word; // Break words if they are too long
         }
         &.cdk-focused.cdk-program-focused {
             background: none !important;

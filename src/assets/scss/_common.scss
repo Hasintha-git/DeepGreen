@@ -159,12 +159,12 @@ input.mat-input-element {
     margin-right: 16px;
 
     &:hover {
-      background: $btnHoverColor;
+      background: $secondaryColor-800;
     }
   }
 
   &.secondary {
-    background: $secondaryColor;
+    background: $secondaryColor-800;
     color: $warning;
     margin-right: 16px;
   }
